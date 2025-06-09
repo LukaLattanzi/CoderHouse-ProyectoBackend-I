@@ -23,5 +23,5 @@ app.use("/api/carts", cartsRouter); // Asocia las rutas de carritos al endpoint 
 
 // Inicia el servidor y muestra un mensaje en consola cuando está listo
 app.listen(PORT, () => {
-  console.log(`Servidor escuchando en http://localhost:${PORT}`);
+    console.log(`Servidor escuchando en http://localhost:${PORT}`);
 });

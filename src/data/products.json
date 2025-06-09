@@ -8,7 +8,9 @@
     "status": true,
     "stock": 12,
     "category": "Videojuego",
-    "thumbnails": ["images/tlou2.jpg"]
+    "thumbnails": [
+      "images/tlou2.jpg"
+    ]
   },
   {
     "id": 2,
@@ -19,7 +21,9 @@
     "status": true,
     "stock": 10,
     "category": "Videojuego",
-    "thumbnails": ["images/gow.jpg"]
+    "thumbnails": [
+      "images/gow.jpg"
+    ]
   },
   {
     "id": 3,
@@ -30,18 +34,22 @@
     "status": true,
     "stock": 15,
     "category": "Videojuego",
-    "thumbnails": ["images/ghost.jpg"]
+    "thumbnails": [
+      "images/ghost.jpg"
+    ]
   },
   {
     "id": 4,
     "title": "Spider-Man: Miles Morales",
     "description": "Conviértete en el nuevo Spider-Man y protege Nueva York.",
-    "price": 44.99,
+    "price": 39.99,
     "code": "SPIDERMANMM",
     "status": true,
-    "stock": 18,
+    "stock": 10,
     "category": "Videojuego",
-    "thumbnails": ["images/spidermanmm.jpg"]
+    "thumbnails": [
+      "images/spidermanmm.jpg"
+    ]
   },
   {
     "id": 5,
@@ -52,18 +60,22 @@
     "status": true,
     "stock": 9,
     "category": "Videojuego",
-    "thumbnails": ["images/rdr2.jpg"]
+    "thumbnails": [
+      "images/rdr2.jpg"
+    ]
   },
   {
     "id": 6,
     "title": "Horizon Zero Dawn",
     "description": "Explora un mundo post-apocalíptico dominado por máquinas.",
-    "price": 29.99,
+    "price": 19.99,
     "code": "HZD",
     "status": true,
-    "stock": 7,
+    "stock": 15,
     "category": "Videojuego",
-    "thumbnails": ["images/hzd.jpg"]
+    "thumbnails": [
+      "images/hzd.jpg"
+    ]
   },
   {
     "id": 7,
@@ -74,7 +86,9 @@
     "status": true,
     "stock": 6,
     "category": "Videojuego",
-    "thumbnails": ["images/bloodborne.jpg"]
+    "thumbnails": [
+      "images/bloodborne.jpg"
+    ]
   },
   {
     "id": 8,
@@ -85,18 +99,22 @@
     "status": true,
     "stock": 13,
     "category": "Videojuego",
-    "thumbnails": ["images/uncharted4.jpg"]
+    "thumbnails": [
+      "images/uncharted4.jpg"
+    ]
   },
   {
     "id": 9,
     "title": "Death Stranding",
     "description": "Un repartidor en un mundo desolado conecta a la humanidad.",
-    "price": 45.0,
+    "price": 45,
     "code": "DEATHSTRANDING",
     "status": true,
     "stock": 8,
     "category": "Videojuego",
-    "thumbnails": ["images/deathstranding.jpg"]
+    "thumbnails": [
+      "images/deathstranding.jpg"
+    ]
   },
   {
     "id": 10,
@@ -107,7 +125,9 @@
     "status": true,
     "stock": 5,
     "category": "Videojuego",
-    "thumbnails": ["images/persona5.jpg"]
+    "thumbnails": [
+      "images/persona5.jpg"
+    ]
   },
   {
     "id": 11,
@@ -118,7 +138,9 @@
     "status": true,
     "stock": 11,
     "category": "Videojuego",
-    "thumbnails": ["images/ff7r.jpg"]
+    "thumbnails": [
+      "images/ff7r.jpg"
+    ]
   },
   {
     "id": 12,
@@ -129,7 +151,9 @@
     "status": true,
     "stock": 10,
     "category": "Videojuego",
-    "thumbnails": ["images/gtsport.jpg"]
+    "thumbnails": [
+      "images/gtsport.jpg"
+    ]
   },
   {
     "id": 13,
@@ -140,18 +164,22 @@
     "status": true,
     "stock": 7,
     "category": "Videojuego",
-    "thumbnails": ["images/daysgone.jpg"]
+    "thumbnails": [
+      "images/daysgone.jpg"
+    ]
   },
   {
     "id": 14,
     "title": "Resident Evil 2",
     "description": "Remake del survival horror clásico.",
-    "price": 42.0,
+    "price": 42,
     "code": "RE2",
     "status": true,
     "stock": 12,
     "category": "Videojuego",
-    "thumbnails": ["images/re2.jpg"]
+    "thumbnails": [
+      "images/re2.jpg"
+    ]
   },
   {
     "id": 15,
@@ -162,7 +190,9 @@
     "status": true,
     "stock": 4,
     "category": "Videojuego",
-    "thumbnails": ["images/control.jpg"]
+    "thumbnails": [
+      "images/control.jpg"
+    ]
   },
   {
     "id": 16,
@@ -173,7 +203,9 @@
     "status": true,
     "stock": 9,
     "category": "Videojuego",
-    "thumbnails": ["images/sekiro.jpg"]
+    "thumbnails": [
+      "images/sekiro.jpg"
+    ]
   },
   {
     "id": 17,
@@ -184,7 +216,9 @@
     "status": true,
     "stock": 10,
     "category": "Videojuego",
-    "thumbnails": ["images/mk11.jpg"]
+    "thumbnails": [
+      "images/mk11.jpg"
+    ]
   },
   {
     "id": 18,
@@ -195,18 +229,22 @@
     "status": true,
     "stock": 20,
     "category": "Videojuego",
-    "thumbnails": ["images/fifa22.jpg"]
+    "thumbnails": [
+      "images/fifa22.jpg"
+    ]
   },
   {
     "id": 19,
     "title": "Assassin’s Creed Valhalla",
     "description": "Explora el mundo vikingo como Eivor.",
-    "price": 52.0,
+    "price": 52,
     "code": "ACVALHALLA",
     "status": true,
     "stock": 11,
     "category": "Videojuego",
-    "thumbnails": ["images/acvalhalla.jpg"]
+    "thumbnails": [
+      "images/acvalhalla.jpg"
+    ]
   },
   {
     "id": 20,
@@ -217,7 +255,9 @@
     "status": true,
     "stock": 13,
     "category": "Videojuego",
-    "thumbnails": ["images/cp2077.jpg"]
+    "thumbnails": [
+      "images/cp2077.jpg"
+    ]
   },
   {
     "id": 21,
@@ -228,7 +268,9 @@
     "status": true,
     "stock": 8,
     "category": "Videojuego",
-    "thumbnails": ["images/nba2k21.jpg"]
+    "thumbnails": [
+      "images/nba2k21.jpg"
+    ]
   },
   {
     "id": 22,
@@ -239,7 +281,9 @@
     "status": true,
     "stock": 14,
     "category": "Videojuego",
-    "thumbnails": ["images/witcher3.jpg"]
+    "thumbnails": [
+      "images/witcher3.jpg"
+    ]
   },
   {
     "id": 23,
@@ -250,7 +294,9 @@
     "status": true,
     "stock": 6,
     "category": "Videojuego",
-    "thumbnails": ["images/mhw.jpg"]
+    "thumbnails": [
+      "images/mhw.jpg"
+    ]
   },
   {
     "id": 24,
@@ -261,7 +307,9 @@
     "status": true,
     "stock": 10,
     "category": "Videojuego",
-    "thumbnails": ["images/ratchetclank.jpg"]
+    "thumbnails": [
+      "images/ratchetclank.jpg"
+    ]
   },
   {
     "id": 25,
@@ -272,6 +320,8 @@
     "status": true,
     "stock": 5,
     "category": "Videojuego",
-    "thumbnails": ["images/demonssouls.jpg"]
+    "thumbnails": [
+      "images/demonssouls.jpg"
+    ]
   }
 ]
