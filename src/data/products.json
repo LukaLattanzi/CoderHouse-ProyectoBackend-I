@@ -323,5 +323,18 @@
     "thumbnails": [
       "images/demonssouls.jpg"
     ]
+  },
+  {
+    "id": 26,
+    "title": "Gran Turismo 7",
+    "description": "La última entrega del simulador de carreras más realista.",
+    "price": 59.99,
+    "code": "GT7",
+    "status": true,
+    "stock": 10,
+    "category": "Videojuego",
+    "thumbnails": [
+      "images/gt7.jpg"
+    ]
   }
 ]

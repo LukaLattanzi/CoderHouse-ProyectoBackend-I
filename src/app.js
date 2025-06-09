@@ -17,6 +17,12 @@ const PORT = 8080;
 app.use(express.json()); // Permite recibir datos en formato JSON en las peticiones
 app.use(express.urlencoded({ extended: true })); // Permite recibir datos de formularios (URL-encoded)
 
+app.use((req, res, next) => {
+    console.log(`${req.method} ${req.url}`);
+    console.log('Body:', req.body);
+    next();
+});
+
 // Rutas principales de la API
 app.use("/api/products", productsRouter); // Asocia las rutas de productos al endpoint /api/products
 app.use("/api/carts", cartsRouter); // Asocia las rutas de carritos al endpoint /api/carts

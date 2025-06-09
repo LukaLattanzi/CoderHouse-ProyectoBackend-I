@@ -45,19 +45,18 @@ class CartManager {
   }
 
   // Agrega un producto a un carrito específico
-  async addProductToCart(cartId, productId) {
+  async addProductToCart(cartId, productId, quantity = 1) {
     const carts = await this.#readFile();
-    const cart = carts.find((c) => c.id === cartId);
+
+    const cart = carts.find(c => c.id === cartId);
     if (!cart) throw new Error("Carrito no encontrado");
 
-    // Busca si el producto ya está en el carrito
-    const existingProduct = cart.products.find((p) => p.product === productId);
+    const existingProduct = cart.products.find(p => p.product === productId);
+
     if (existingProduct) {
-      // Si ya existe, incrementa la cantidad
-      existingProduct.quantity++;
+      existingProduct.quantity += quantity;
     } else {
-      // Si no existe, lo agrega con cantidad 1
-      cart.products.push({ product: productId, quantity: 1 });
+      cart.products.push({ product: productId, quantity });
     }
 
     await this.#writeFile(carts);

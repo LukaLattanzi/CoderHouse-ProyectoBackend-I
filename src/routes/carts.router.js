@@ -33,13 +33,16 @@ router.get("/:cid", async (req, res) => {
 // POST /api/carts/:cid/product/:pid - Agrega un producto a un carrito específico
 router.post("/:cid/product/:pid", async (req, res) => {
     try {
-        const cartId = parseInt(req.params.cid); // Obtiene el id del carrito
-        const productId = parseInt(req.params.pid); // Obtiene el id del producto
+        const cartId = parseInt(req.params.cid);       // ID del carrito desde la URL
+        const productId = parseInt(req.params.pid);     // ID del producto desde la URL
+        const { quantity } = req.body;                  // Lee la cantidad del body
 
-        const updatedCart = await cartManager.addProductToCart(cartId, productId); // Agrega el producto al carrito
-        res.json({ cart: updatedCart }); // Responde con el carrito actualizado
+        const amount = quantity && quantity > 0 ? quantity : 1; // Usa 1 si no se especifica
+
+        const updatedCart = await cartManager.addProductToCart(cartId, productId, amount);
+        res.json({ cart: updatedCart });
     } catch (error) {
-        res.status(400).json({ error: error.message }); // Error si el carrito o producto no existe
+        res.status(400).json({ error: error.message });
     }
 });
 

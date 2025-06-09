@@ -33,10 +33,13 @@ router.get("/:pid", async (req, res) => {
 
 // POST /api/products - Agrega un nuevo producto
 router.post("/", async (req, res) => {
+    console.log("POST /api/products ejecutándose"); // Añade esta línea
+    console.log("Body recibido:", req.body);
     try {
         const newProduct = await productManager.addProduct(req.body);
-        res.status(201).json(newProduct);
+        res.status(201).json({ product: newProduct });
     } catch (error) {
+        console.log("Error en POST:", error.message);
         res.status(400).json({ error: error.message });
     }
 });
