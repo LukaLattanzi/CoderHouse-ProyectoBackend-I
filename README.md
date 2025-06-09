@@ -152,5 +152,3 @@ Usá [Postman](https://www.postman.com/) o [Thunder Client](https://www.thunderc
 - Define las rutas HTTP para gestionar carritos usando `CartManager`.
 
 ---
-
-Hecho con ❤️ por [Tu Nombre]
