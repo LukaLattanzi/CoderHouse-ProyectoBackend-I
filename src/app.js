@@ -1,10 +1,8 @@
 // Importa el framework Express para crear el servidor
 const express = require("express");
 
-// Importa el router de productos
+// Importa el router de productos y de carritos 
 const productsRouter = require("./routes/products.router");
-
-// Importa el router de carritos
 const cartsRouter = require("./routes/carts.router");
 
 // Crea una instancia de la aplicación Express
@@ -14,8 +12,8 @@ const app = express();
 const PORT = 8080;
 
 // Middlewares para procesar JSON y datos de formularios
-app.use(express.json()); // Permite recibir datos en formato JSON en las peticiones
-app.use(express.urlencoded({ extended: true })); // Permite recibir datos de formularios (URL-encoded)
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 app.use((req, res, next) => {
     console.log(`${req.method} ${req.url}`);
@@ -23,11 +21,11 @@ app.use((req, res, next) => {
     next();
 });
 
-// Rutas principales de la API
-app.use("/api/products", productsRouter); // Asocia las rutas de productos al endpoint /api/products
-app.use("/api/carts", cartsRouter); // Asocia las rutas de carritos al endpoint /api/carts
+// Rutas principales de la API, endpoint /api/products y /api/carts
+app.use("/api/products", productsRouter);
+app.use("/api/carts", cartsRouter);
 
-// Inicia el servidor y muestra un mensaje en consola cuando está listo
+// Inicia el servidor
 app.listen(PORT, () => {
     console.log(`Servidor escuchando en http://localhost:${PORT}`);
 });
