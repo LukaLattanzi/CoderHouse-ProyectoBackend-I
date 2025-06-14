@@ -50,7 +50,7 @@ class ProductManager {
         const products = await this.#readFile();
         if (products.some((p) => p.code === code)) {
             throw new Error("El código ya existe");
-        } o
+        }
         if (!Array.isArray(thumbnails)) {
             thumbnails = [thumbnails];
         }
