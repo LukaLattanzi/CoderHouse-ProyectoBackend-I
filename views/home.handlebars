@@ -1,0 +1,42 @@
+<div class="container">
+  <h1>Productos</h1>
+  <div class="products-grid">
+    {{#each products}}
+      <div class="product-card">
+        {{#if this.thumbnails}}
+          {{#each this.thumbnails}}
+            {{#if @first}}
+              <img src="/{{this}}" alt="{{../title}}" class="product-img"
+                   onerror="this.onerror=null;this.src='/img/no-image.jpeg';"/>
+            {{/if}}
+          {{/each}}
+        {{else}}
+          <img src="/img/no-image.jpeg" alt="Sin imagen" class="product-img"/>
+        {{/if}}
+        <div class="product-info">
+          <h2>{{this.title}}</h2>
+          <p class="price">$ {{this.price}}</p>
+          <p>{{this.description}}</p>
+          <p><b>Código:</b> {{this.code}}</p>
+          <p><b>Stock:</b> {{this.stock}}</p>
+          <p><b>Categoría:</b> {{this.category}}</p>
+          <p><b>Status:</b> {{this.status}}</p>
+        </div>
+      </div>
+    {{/each}}
+  </div>
+</div>
+
+<div class="form-container">
+  <h2>Agregar producto</h2>
+  <form action="/api/products" method="POST" enctype="multipart/form-data">
+    <input type="text" name="title" placeholder="Título" required />
+    <input type="text" name="description" placeholder="Descripción" required />
+    <input type="number" name="price" placeholder="Precio" required />
+    <input type="text" name="code" placeholder="Código" required />
+    <input type="number" name="stock" placeholder="Stock" required />
+    <input type="text" name="category" placeholder="Categoría" required />
+    <input type="file" name="thumbnail" accept="image/*" />
+    <button type="submit">Agregar</button>
+  </form>
+</div>
