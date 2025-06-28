@@ -27,7 +27,7 @@ h1 {
 .product-card {
   background: #fff;
   border-radius: 12px;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
   padding: 18px;
   display: flex;
   flex-direction: column;
@@ -36,7 +36,7 @@ h1 {
 }
 
 .product-card:hover {
-  box-shadow: 0 4px 24px rgba(0,0,0,0.13);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.13);
 }
 
 .product-img {
@@ -72,7 +72,7 @@ h1 {
   background: #fff;
   padding: 24px 28px;
   border-radius: 12px;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
 }
 
 .form-container h2 {

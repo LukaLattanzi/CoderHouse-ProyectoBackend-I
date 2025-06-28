@@ -2,31 +2,31 @@
   <h1 class="mb-4">Productos</h1>
   <div class="row row-cols-1 row-cols-md-3 g-4">
     {{#each products}}
-      <div class="col">
-        <div class="card h-100 shadow-sm">
-          {{#if this.thumbnails}}
-            {{#each this.thumbnails}}
-              {{#if @first}}
-                <img src="/{{this}}" alt="{{../title}}" class="card-img-top"
-                     onerror="this.onerror=null;this.src='/img/no-image.jpeg';"/>
-              {{/if}}
-            {{/each}}
-          {{else}}
-            <img src="/img/no-image.jpeg" alt="Sin imagen" class="card-img-top"/>
-          {{/if}}
-          <div class="card-body">
-            <h5 class="card-title">{{this.title}}</h5>
-            <p class="card-text">{{this.description}}</p>
-            <ul class="list-group list-group-flush mb-2">
-              <li class="list-group-item"><b>Precio:</b> ${{this.price}}</li>
-              <li class="list-group-item"><b>Código:</b> {{this.code}}</li>
-              <li class="list-group-item"><b>Stock:</b> {{this.stock}}</li>
-              <li class="list-group-item"><b>Categoría:</b> {{this.category}}</li>
-              <li class="list-group-item"><b>Status:</b> {{this.status}}</li>
-            </ul>
-          </div>
+    <div class="col">
+      <div class="card h-100 shadow-sm">
+        {{#if this.thumbnails}}
+        {{#each this.thumbnails}}
+        {{#if @first}}
+        <img src="/{{this}}" alt="{{../title}}" class="card-img-top"
+          onerror="this.onerror=null;this.src='/img/no-image.jpeg';" />
+        {{/if}}
+        {{/each}}
+        {{else}}
+        <img src="/img/no-image.jpeg" alt="Sin imagen" class="card-img-top" />
+        {{/if}}
+        <div class="card-body">
+          <h5 class="card-title">{{this.title}}</h5>
+          <p class="card-text">{{this.description}}</p>
+          <ul class="list-group list-group-flush mb-2">
+            <li class="list-group-item"><b>Precio:</b> ${{this.price}}</li>
+            <li class="list-group-item"><b>Código:</b> {{this.code}}</li>
+            <li class="list-group-item"><b>Stock:</b> {{this.stock}}</li>
+            <li class="list-group-item"><b>Categoría:</b> {{this.category}}</li>
+            <li class="list-group-item"><b>Status:</b> {{this.status}}</li>
+          </ul>
         </div>
       </div>
+    </div>
     {{/each}}
   </div>
 </div>

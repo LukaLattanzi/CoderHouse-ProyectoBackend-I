@@ -3,7 +3,6 @@ const fs = require("fs").promises;
 const path = require("path");
 
 class CartManager {
-
   // El constructor, recibe ruta del archivo donde se almacenan los carritos
   constructor(filePath) {
     this.path = path.resolve(filePath);
@@ -50,9 +49,9 @@ class CartManager {
   // Luego guarda el carrito actualizado en el archivo
   async addProductToCart(cartId, productId, quantity = 1) {
     const carts = await this.#readFile();
-    const cart = carts.find(c => c.id === cartId);
+    const cart = carts.find((c) => c.id === cartId);
     if (!cart) throw new Error("Carrito no encontrado");
-    const existingProduct = cart.products.find(p => p.product === productId);
+    const existingProduct = cart.products.find((p) => p.product === productId);
     if (existingProduct) {
       existingProduct.quantity += quantity;
     } else {
