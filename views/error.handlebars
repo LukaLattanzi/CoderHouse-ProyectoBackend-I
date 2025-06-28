@@ -1,7 +1,9 @@
-<div>
-  <h1>Error {{statusCode}}</h1>
-  <p>{{message}}</p>
-  <p>{{error}}</p>
-  <p>Stack: {{stack}}</p>
-  <a href="/">Go back to home</a>
+<div class="container my-5">
+  <div class="alert alert-danger">
+    <h1>Error {{statusCode}}</h1>
+    <p>{{message}}</p>
+    <p>{{error}}</p>
+    <p><small>Stack: {{stack}}</small></p>
+    <a href="/" class="btn btn-primary mt-3">Volver al inicio</a>
+  </div>
 </div>
