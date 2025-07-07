@@ -1,5 +1,10 @@
 <div class="container my-4">
-  <h1 class="mb-4">Productos</h1>
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>Productos</h1>
+    <a href="/realtimeproducts" class="btn btn-success">
+      <i class="fas fa-sync-alt"></i> Ver Productos en Tiempo Real
+    </a>
+  </div>
   <div class="row row-cols-1 row-cols-md-3 g-4">
     {{#each products}}
     <div class="col">
@@ -64,3 +69,44 @@
     </div>
   </div>
 </div>
+
+<script>
+  // Mejorar la experiencia del formulario con SweetAlert2
+  document.querySelector('form').addEventListener('submit', async function (e) {
+    e.preventDefault();
+
+    const formData = new FormData(this);
+
+    try {
+      const response = await fetch('/api/products', {
+        method: 'POST',
+        body: formData
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        Swal.fire({
+          icon: 'success',
+          title: 'Producto agregado',
+          text: `El producto "${result.product.title}" se agregó exitosamente`,
+          showConfirmButton: true
+        }).then(() => {
+          // Recargar la página para mostrar el nuevo producto
+          window.location.reload();
+        });
+
+        // Limpiar formulario
+        this.reset();
+      } else {
+        throw new Error(result.error);
+      }
+    } catch (error) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: error.message || 'Error al agregar el producto'
+      });
+    }
+  });
+</script>

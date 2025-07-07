@@ -1,0 +1,152 @@
+<div class="container my-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>Productos en Tiempo Real</h1>
+    <a href="/" class="btn btn-secondary">
+      <i class="fas fa-arrow-left"></i> Volver a Home
+    </a>
+  </div>
+  <div id="products-container" class="row row-cols-1 row-cols-md-3 g-4">
+    <!-- Los productos se cargarán dinámicamente aquí -->
+  </div>
+</div>
+
+<div class="container my-5">
+  <div class="card shadow">
+    <div class="card-body">
+      <h2 class="card-title mb-3">Agregar producto (WebSocket)</h2>
+      <form id="add-product-form" class="row g-3">
+        <div class="col-md-6">
+          <input type="text" id="title" class="form-control" placeholder="Título" required />
+        </div>
+        <div class="col-md-6">
+          <input type="text" id="description" class="form-control" placeholder="Descripción" required />
+        </div>
+        <div class="col-md-4">
+          <input type="number" id="price" class="form-control" placeholder="Precio" step="0.01" required />
+        </div>
+        <div class="col-md-4">
+          <input type="text" id="code" class="form-control" placeholder="Código" required />
+        </div>
+        <div class="col-md-4">
+          <input type="number" id="stock" class="form-control" placeholder="Stock" required />
+        </div>
+        <div class="col-md-6">
+          <input type="text" id="category" class="form-control" placeholder="Categoría" required />
+        </div>
+        <div class="col-md-6">
+          <select id="status" class="form-control" required>
+            <option value="">Seleccionar status</option>
+            <option value="true">Activo</option>
+            <option value="false">Inactivo</option>
+          </select>
+        </div>
+        <div class="col-12">
+          <button type="submit" class="btn btn-primary w-100">Agregar Producto</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script>
+  const socket = io();
+  const productsContainer = document.getElementById('products-container');
+  const addProductForm = document.getElementById('add-product-form');
+
+  // Función para renderizar productos
+  function renderProducts(products) {
+    productsContainer.innerHTML = '';
+    products.forEach(product => {
+      const productCard = `
+        <div class="col">
+          <div class="card h-100 shadow-sm">
+            ${product.thumbnails && product.thumbnails.length > 0
+          ? `<img src="/${product.thumbnails[0]}" alt="${product.title}" class="card-img-top" onerror="this.onerror=null;this.src='/img/no-image.jpeg';" />`
+          : `<img src="/img/no-image.jpeg" alt="Sin imagen" class="card-img-top" />`
+        }
+            <div class="card-body">
+              <h5 class="card-title">${product.title}</h5>
+              <p class="card-text">${product.description}</p>
+              <ul class="list-group list-group-flush mb-2">
+                <li class="list-group-item"><b>Precio:</b> $${product.price}</li>
+                <li class="list-group-item"><b>Código:</b> ${product.code}</li>
+                <li class="list-group-item"><b>Stock:</b> ${product.stock}</li>
+                <li class="list-group-item"><b>Categoría:</b> ${product.category}</li>
+                <li class="list-group-item"><b>Status:</b> ${product.status ? 'Activo' : 'Inactivo'}</li>
+              </ul>
+              <button class="btn btn-danger btn-sm w-100" onclick="deleteProduct(${product.id})">
+                Eliminar
+              </button>
+            </div>
+          </div>
+        </div>
+      `;
+      productsContainer.innerHTML += productCard;
+    });
+  }
+
+  // Función para eliminar producto
+  function deleteProduct(id) {
+    if (confirm('¿Estás seguro de que quieres eliminar este producto?')) {
+      socket.emit('deleteProduct', id);
+    }
+  }
+
+  // Escuchar actualizaciones de productos
+  socket.on('updateProducts', (products) => {
+    renderProducts(products);
+  });
+
+  // Escuchar notificaciones
+  socket.on('productAdded', (message) => {
+    Swal.fire({
+      icon: 'success',
+      title: 'Producto agregado',
+      text: message,
+      timer: 2000,
+      showConfirmButton: false
+    });
+  });
+
+  socket.on('productDeleted', (message) => {
+    Swal.fire({
+      icon: 'success',
+      title: 'Producto eliminado',
+      text: message,
+      timer: 2000,
+      showConfirmButton: false
+    });
+  });
+
+  socket.on('error', (message) => {
+    Swal.fire({
+      icon: 'error',
+      title: 'Error',
+      text: message
+    });
+  });
+
+  // Manejar envío del formulario
+  addProductForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    const productData = {
+      title: document.getElementById('title').value,
+      description: document.getElementById('description').value,
+      price: parseFloat(document.getElementById('price').value),
+      code: document.getElementById('code').value,
+      stock: parseInt(document.getElementById('stock').value),
+      category: document.getElementById('category').value,
+      status: document.getElementById('status').value === 'true'
+    };
+
+    socket.emit('addProduct', productData);
+
+    // Limpiar formulario
+    addProductForm.reset();
+  });
+
+  // Solicitar lista inicial de productos
+  socket.emit('getProducts');
+</script>

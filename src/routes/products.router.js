@@ -8,6 +8,14 @@ const ProductManager = require("../managers/ProductManager");
 // Instancia ProductManager con la ruta al archivo de productos
 const productManager = new ProductManager("./src/data/products.json");
 
+// Variable para almacenar la instancia de socket.io
+let io;
+
+// Función para configurar socket.io en este router
+function configureSocket(socketInstance) {
+    io = socketInstance;
+}
+
 // GET /api/products - Devuelve todos los productos
 router.get("/", async (req, res) => {
     try {
@@ -37,6 +45,13 @@ router.post("/", async (req, res) => {
     console.log("Body recibido:", req.body);
     try {
         const newProduct = await productManager.addProduct(req.body);
+
+        // Emitir actualización via WebSocket si está disponible
+        if (io) {
+            const products = await productManager.getProducts();
+            io.emit("updateProducts", products);
+        }
+
         res.status(201).json({ product: newProduct });
     } catch (error) {
         console.log("Error en POST:", error.message);
@@ -60,11 +75,19 @@ router.delete("/:pid", async (req, res) => {
     try {
         const id = parseInt(req.params.pid);
         await productManager.deleteProduct(id);
+
+        // Emitir actualización via WebSocket si está disponible
+        if (io) {
+            const products = await productManager.getProducts();
+            io.emit("updateProducts", products);
+        }
+
         res.json({ message: "Producto eliminado" });
     } catch (error) {
         res.status(400).json({ error: error.message });
     }
 });
 
-// Exporta el router para usarlo en la app principal
+// Exporta el router y la función de configuración
 module.exports = router;
+module.exports.configureSocket = configureSocket;
