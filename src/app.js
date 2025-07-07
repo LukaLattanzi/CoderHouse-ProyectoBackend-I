@@ -49,7 +49,7 @@ io.on("connection", (socket) => {
   });
 
   // ***** PRODUCTOS WEBSOCKETS *****
-  
+
   // Enviar lista de productos cuando se solicite
   socket.on("getProducts", async () => {
     try {
@@ -65,11 +65,11 @@ io.on("connection", (socket) => {
     try {
       const newProduct = await productManager.addProduct(productData);
       const products = await productManager.getProducts();
-      
+
       // Emitir a todos los clientes conectados
       io.emit("updateProducts", products);
       socket.emit("productAdded", `Producto "${newProduct.title}" agregado exitosamente`);
-      
+
       console.log("Producto agregado via WebSocket:", newProduct);
     } catch (error) {
       socket.emit("error", error.message);
@@ -82,11 +82,11 @@ io.on("connection", (socket) => {
     try {
       await productManager.deleteProduct(productId);
       const products = await productManager.getProducts();
-      
+
       // Emitir a todos los clientes conectados
       io.emit("updateProducts", products);
       socket.emit("productDeleted", `Producto eliminado exitosamente`);
-      
+
       console.log("Producto eliminado via WebSocket:", productId);
     } catch (error) {
       socket.emit("error", error.message);
