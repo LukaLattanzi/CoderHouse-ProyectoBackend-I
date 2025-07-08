@@ -105,13 +105,3 @@ Para cambiar los IDs de ejemplo:
 2. Ve a la pestaña "Params" o "Path Variables"
 3. Modifica los valores según necesites
 4. Guarda el request si quieres mantener los cambios
-
-## 🌐 Endpoints Web (Acceso desde Navegador)
-
-Además de la API, también puedes acceder a las vistas web:
-
-- **Home**: http://localhost:8080/
-- **Productos en Tiempo Real**: http://localhost:8080/realtimeproducts
-- **Chat**: http://localhost:8080/chat
-
-¡Happy Testing! 🚀
