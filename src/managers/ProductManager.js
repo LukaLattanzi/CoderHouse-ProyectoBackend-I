@@ -1,6 +1,6 @@
 // Modulos 'fs' y 'path' para manejar archivos y rutas
-const fs = require("fs").promises;
-const path = require("path");
+import fs from "fs";
+import path from "path";
 
 class ProductManager {
     // El constructor, recibe ruta del archivo donde se almacenan los productos
@@ -12,7 +12,7 @@ class ProductManager {
     // si el archivo no existe o hay error, retorna un arreglo vacío
     async #readFile() {
         try {
-            const data = await fs.readFile(this.path, "utf-8");
+            const data = await fs.promises.readFile(this.path, "utf-8");
             return JSON.parse(data);
         } catch (error) {
             return [];
@@ -21,7 +21,7 @@ class ProductManager {
 
     // Método para escribir el arreglo de productos en el archivo
     async #writeFile(products) {
-        await fs.writeFile(this.path, JSON.stringify(products, null, 2));
+        await fs.promises.writeFile(this.path, JSON.stringify(products, null, 2));
     }
 
     // Función para agregar un nuevo producto, asigna un id autoincrementable
@@ -107,4 +107,4 @@ class ProductManager {
 }
 
 // Exporta la clase para poder usarla en otros archivos
-module.exports = ProductManager;
+export default ProductManager;

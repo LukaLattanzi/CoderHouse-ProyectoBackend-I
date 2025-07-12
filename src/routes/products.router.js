@@ -1,20 +1,15 @@
 // Importa el módulo Express y crea un router
-const express = require("express");
+import express from "express";
 const router = express.Router();
 
 // Importa el ProductManager para manejar la lógica de productos
-const ProductManager = require("../managers/ProductManager");
+import ProductManager from "../managers/ProductManager.js";
 
 // Instancia ProductManager con la ruta al archivo de productos
 const productManager = new ProductManager("./src/data/products.json");
 
 // Variable para almacenar la instancia de socket.io
 let io;
-
-// Función para configurar socket.io en este router
-function configureSocket(socketInstance) {
-    io = socketInstance;
-}
 
 // GET /api/products - Devuelve todos los productos
 router.get("/", async (req, res) => {
@@ -88,6 +83,11 @@ router.delete("/:pid", async (req, res) => {
     }
 });
 
+// Función para configurar socket.io en este router
+function configureSocket(socketInstance) {
+    io = socketInstance;
+}
+
 // Exporta el router y la función de configuración
-module.exports = router;
-module.exports.configureSocket = configureSocket;
+export default router;
+export { configureSocket };

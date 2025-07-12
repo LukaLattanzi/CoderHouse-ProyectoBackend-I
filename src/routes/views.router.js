@@ -1,9 +1,9 @@
 // Importa el módulo Express y crea un router
-const express = require("express");
+import express from "express";
 const router = express.Router();
 
 // Importa el ProductManager para manejar los productos
-const ProductManager = require("../managers/ProductManager");
+import ProductManager from "../managers/ProductManager.js";
 const productManager = new ProductManager("./src/data/products.json");
 
 // Ruta home que muestra los productos usando Handlebars
@@ -32,4 +32,4 @@ router.get("/chat", (req, res) => {
 });
 
 // Exporta el router para usarlo en la app principal
-module.exports = router;
+export default router;

@@ -1,6 +1,6 @@
 // Modulos 'fs' y 'path' para manejar archivos y rutas
-const fs = require("fs").promises;
-const path = require("path");
+import fs from "fs";
+import path from "path";
 
 class CartManager {
   // El constructor, recibe ruta del archivo donde se almacenan los carritos
@@ -12,7 +12,7 @@ class CartManager {
   // si el archivo no existe, retorna un arreglo vacío
   async #readFile() {
     try {
-      const data = await fs.readFile(this.path, "utf-8");
+      const data = await fs.promises.readFile(this.path, "utf-8");
       return JSON.parse(data);
     } catch {
       return [];
@@ -21,7 +21,7 @@ class CartManager {
 
   // Método para escribir el arreglo de carritos en el archivo
   async #writeFile(carts) {
-    await fs.writeFile(this.path, JSON.stringify(carts, null, 2));
+    await fs.promises.writeFile(this.path, JSON.stringify(carts, null, 2));
   }
 
   // Función para crear un nuevo carrito vacío, asigna un id autoincrementable
@@ -63,4 +63,4 @@ class CartManager {
 }
 
 // Exporta la clase para poder usarla en otros archivos
-module.exports = CartManager;
+export default CartManager;
