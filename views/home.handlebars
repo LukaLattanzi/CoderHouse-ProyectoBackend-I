@@ -13,6 +13,10 @@
       <a href="/chat" class="btn btn-outline-info">
         <i class="fas fa-comments"></i> Chat
       </a>
+      <!-- Botón para el carrito -->
+      <a href="#" class="btn btn-outline-warning" onclick="redirectToCart()">
+        <i class="fas fa-shopping-cart"></i> Carrito
+      </a>
     </div>
   </div>
 
@@ -68,10 +72,31 @@
 
 <script>
   async function addToCart(productId) {
-    const cartId = localStorage.getItem('cartId') || 'default-cart-id'; // Cambia esto según tu lógica
+    let cartId = localStorage.getItem('cartId');
+
+    // Si no hay un carrito en localStorage, crear uno nuevo
+    if (!cartId) {
+      const response = await fetch('/api/carts', { method: 'POST' });
+      const data = await response.json();
+      if (data.status === 'success') {
+        cartId = data.payload._id; // Asegúrate de usar el _id del carrito creado
+        localStorage.setItem('cartId', cartId);
+      } else {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'No se pudo crear el carrito',
+        });
+        return;
+      }
+    }
+
+    // Agregar el producto al carrito
     try {
       const response = await fetch(`/api/carts/${cartId}/products/${productId}`, {
         method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ quantity: 1 }),
       });
 
       if (response.ok) {
@@ -93,6 +118,19 @@
         icon: 'error',
         title: 'Error',
         text: 'No se pudo agregar el producto al carrito',
+      });
+    }
+  }
+
+  function redirectToCart() {
+    const cartId = localStorage.getItem('cartId');
+    if (cartId) {
+      window.location.href = `/carts/${cartId}`;
+    } else {
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'No se encontró un carrito válido',
       });
     }
   }

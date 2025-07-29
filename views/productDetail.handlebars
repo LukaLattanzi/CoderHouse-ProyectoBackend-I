@@ -26,10 +26,31 @@
 
 <script>
   async function addToCart(productId) {
-    const cartId = localStorage.getItem('cartId') || 'default-cart-id'; // Cambia esto según tu lógica
+    let cartId = localStorage.getItem('cartId');
+
+    // Si no hay un carrito en localStorage, crear uno nuevo
+    if (!cartId) {
+      const response = await fetch('/api/carts', { method: 'POST' });
+      const data = await response.json();
+      if (data.status === 'success') {
+        cartId = data.payload._id; // Asegúrate de usar el _id del carrito creado
+        localStorage.setItem('cartId', cartId);
+      } else {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'No se pudo crear el carrito',
+        });
+        return;
+      }
+    }
+
+    // Agregar el producto al carrito
     try {
       const response = await fetch(`/api/carts/${cartId}/products/${productId}`, {
         method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ quantity: 1 }),
       });
 
       if (response.ok) {

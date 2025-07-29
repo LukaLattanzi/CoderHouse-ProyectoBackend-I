@@ -65,8 +65,8 @@
       <button class="btn btn-warning btn-lg me-2" onclick="clearCart('{{cart._id}}')">
         <i class="fas fa-trash-alt"></i> Vaciar carrito
       </button>
-      <button class="btn btn-success btn-lg">
-        <i class="fas fa-credit-card"></i> Proceder al pago
+      <button class="btn btn-success btn-lg" onclick="finalizeCart('{{cart._id}}')">
+        <i class="fas fa-credit-card"></i> Finalizar compra
       </button>
     </div>
   </div>
@@ -80,6 +80,48 @@
 </div>
 
 <script>
+  async function loadCart() {
+    const cartId = localStorage.getItem('cartId');
+
+    if (!cartId) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'No se encontró un carrito válido',
+      });
+      return;
+    }
+
+    try {
+      const response = await fetch(`/api/carts/${cartId}`);
+      if (response.ok) {
+        const data = await response.json();
+        // Renderiza el carrito en la página
+        renderCart(data.cart);
+      } else {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Error al cargar el carrito',
+        });
+      }
+    } catch (error) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'No se pudo cargar el carrito',
+      });
+    }
+  }
+
+  function renderCart(cart) {
+    // Lógica para renderizar el carrito en la página
+    console.log(cart);
+  }
+
+  // Llama a la función para cargar el carrito al cargar la página
+  loadCart();
+
   function updateQuantity(cartId, productId) {
     const quantity = document.getElementById(`quantity-${productId}`).value;
 
@@ -190,5 +232,35 @@
           });
       }
     });
+  }
+
+  async function finalizeCart(cartId) {
+    try {
+      const response = await fetch(`/api/carts/${cartId}`, { method: 'PUT' });
+
+      if (response.ok) {
+        Swal.fire({
+          icon: 'success',
+          title: 'Compra finalizada',
+          text: 'El carrito se ha guardado exitosamente en la base de datos',
+        }).then(() => {
+          localStorage.removeItem('cartId'); // Limpiar el carrito local
+          window.location.href = '/'; // Redirigir a la página principal
+        });
+      } else {
+        const error = await response.json();
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: error.message,
+        });
+      }
+    } catch (error) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'No se pudo finalizar la compra',
+      });
+    }
   }
 </script>

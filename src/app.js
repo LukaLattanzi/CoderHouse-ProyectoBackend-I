@@ -50,7 +50,11 @@ const hbs = engine({
         return total + (item.product.price * item.quantity);
       }, 0).toFixed(2);
     }
-  }
+  },
+  runtimeOptions: {
+    allowProtoPropertiesByDefault: true, // Permitir acceso a propiedades del prototipo
+    allowProtoMethodsByDefault: true,   // Permitir acceso a métodos del prototipo
+  },
 });
 
 app.engine("handlebars", hbs);
