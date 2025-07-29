@@ -57,18 +57,10 @@
     <div class="col">
       <div class="card h-100 shadow-sm">
         {{#if this.thumbnail}}
-        <img 
-          src="{{this.thumbnail}}" 
-          alt="{{this.title}}" 
-          class="card-img-top" 
-          onerror="this.onerror=null;this.src='../public/img/no-image.jpeg';" 
-        />
+        <img src="{{this.thumbnail}}" alt="{{this.title}}" class="card-img-top"
+          onerror="this.onerror=null;this.src='../public/img/no-image.jpeg';" />
         {{else}}
-        <img 
-          src="../public/img/no-image.jpeg" 
-          alt="Sin imagen" 
-          class="card-img-top" 
-        />
+        <img src="../public/img/no-image.jpeg" alt="Sin imagen" class="card-img-top" />
         {{/if}}
         <div class="card-body">
           <h5 class="card-title">{{this.title}}</h5>

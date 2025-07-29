@@ -1,6 +1,7 @@
 // Importa el módulo Express y crea un router
 import express from "express";
 import ProductDAO from "../dao/ProductDAO.js";
+import Product from "../models/Product.js"; // Import faltante
 
 const router = express.Router();
 const productDAO = new ProductDAO();

@@ -30,50 +30,50 @@
 
     // Si no hay un carrito en localStorage, crear uno nuevo
     if (!cartId) {
-        const response = await fetch('/api/carts', { method: 'POST' });
-        const data = await response.json();
-        if (data.status === 'success') {
-            cartId = data.payload._id; // Asegúrate de usar el _id del carrito creado
-            localStorage.setItem('cartId', cartId);
-        } else {
-            Swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: 'No se pudo crear el carrito',
-            });
-            return;
-        }
+      const response = await fetch('/api/carts', { method: 'POST' });
+      const data = await response.json();
+      if (data.status === 'success') {
+        cartId = data.payload._id; // Asegúrate de usar el _id del carrito creado
+        localStorage.setItem('cartId', cartId);
+      } else {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'No se pudo crear el carrito',
+        });
+        return;
+      }
     }
 
     // Agregar el producto al carrito con una cantidad específica
     const quantity = 1; // Cambia este valor si deseas enviar una cantidad diferente
     try {
-        const response = await fetch(`/api/carts/${cartId}/products/${productId}`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ quantity }), // Enviar la cantidad al backend
-        });
+      const response = await fetch(`/api/carts/${cartId}/products/${productId}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ quantity }), // Enviar la cantidad al backend
+      });
 
-        if (response.ok) {
-            Swal.fire({
-                icon: 'success',
-                title: 'Producto agregado',
-                text: 'El producto se agregó al carrito exitosamente',
-            });
-        } else {
-            const error = await response.json();
-            Swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: error.message,
-            });
-        }
-    } catch (error) {
+      if (response.ok) {
         Swal.fire({
-            icon: 'error',
-            title: 'Error',
-            text: 'No se pudo agregar el producto al carrito',
+          icon: 'success',
+          title: 'Producto agregado',
+          text: 'El producto se agregó al carrito exitosamente',
         });
+      } else {
+        const error = await response.json();
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: error.message,
+        });
+      }
+    } catch (error) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'No se pudo agregar el producto al carrito',
+      });
     }
-}
+  }
 </script>
