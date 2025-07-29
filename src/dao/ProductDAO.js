@@ -47,7 +47,12 @@ export default class ProductDAO {
     }
 
     async getProductById(id) {
-        return await Product.findById(id);
+        try {
+            return await Product.findById(id).lean(); // Convierte el documento en un objeto plano
+        } catch (error) {
+            console.error("Error al obtener el producto por ID:", error);
+            return null;
+        }
     }
 
     async createProduct(productData) {

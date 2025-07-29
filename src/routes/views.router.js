@@ -15,29 +15,30 @@ router.get("/", async (req, res) => {
         const { page = 1, limit = 10, sort, category, status } = req.query;
 
         // Construir filtros
-        let mongoQuery = {};
-        if (category) mongoQuery.category = category;
-        if (status !== undefined) mongoQuery.status = status === 'true';
+        let query = {};
+        if (category) query.category = category;
+        if (status !== undefined) query.status = status === 'true';
 
-        const options = {
-            limit: parseInt(limit),
-            page: parseInt(page),
-            sort: sort === 'asc' ? { price: 1 } : sort === 'desc' ? { price: -1 } : {}
-        };
+        // Obtener productos desde el DAO con paginación
+        const products = await productDAO.getProducts({
+            page,
+            limit,
+            sort,
+            query,
+        });
 
-        const result = await Product.paginate(mongoQuery, options);
-
+        // Renderizar la vista con los productos y datos de paginación
         res.render("home", {
-            products: result.docs, // Asegúrate de enviar todos los datos de los productos
+            products: products.payload, // Lista de productos
             pagination: {
-                totalPages: result.totalPages,
-                prevPage: result.prevPage,
-                nextPage: result.nextPage,
-                page: result.page,
-                hasPrevPage: result.hasPrevPage,
-                hasNextPage: result.hasNextPage,
-                prevLink: result.hasPrevPage ? `/products?page=${result.prevPage}&limit=${limit}` : null,
-                nextLink: result.hasNextPage ? `/products?page=${result.nextPage}&limit=${limit}` : null,
+                totalPages: products.totalPages,
+                prevPage: products.prevPage,
+                nextPage: products.nextPage,
+                page: products.page,
+                hasPrevPage: products.hasPrevPage,
+                hasNextPage: products.hasNextPage,
+                prevLink: products.prevLink,
+                nextLink: products.nextLink,
             },
         });
     } catch (error) {
@@ -76,15 +77,25 @@ router.get('/products', async (req, res) => {
 // Ruta para ver un producto específico
 router.get("/products/:pid", async (req, res) => {
     try {
+        // Obtener el producto desde el DAO
         const product = await productDAO.getProductById(req.params.pid);
+
+        // Registrar el producto en el backend
+        console.log("Producto obtenido:", product);
+
+        // Verificar si el producto existe
         if (!product) {
             return res.status(404).render("error", {
                 statusCode: 404,
                 message: "Producto no encontrado"
             });
         }
+
+        // Pasar el producto al frontend
         res.render("productDetail", { product });
     } catch (error) {
+        // Manejar errores
+        console.error("Error al cargar el producto:", error);
         res.status(500).render("error", {
             statusCode: 500,
             message: "Error al cargar el producto",

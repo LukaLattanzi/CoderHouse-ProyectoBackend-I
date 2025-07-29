@@ -5,8 +5,17 @@
       <p class="card-text">{{product.description}}</p>
       <ul class="list-group list-group-flush mb-3">
         <li class="list-group-item"><b>Precio:</b> ${{product.price}}</li>
-        <li class="list-group-item"><b>Categoría:</b> {{product.category}}</li>
+        <li class="list-group-item"><b>Código:</b> {{product.code}}</li>
+        <li class="list-group-item"><b>Estado:</b> {{#if product.status}}Activo{{else}}Inactivo{{/if}}</li>
         <li class="list-group-item"><b>Stock:</b> {{product.stock}}</li>
+        <li class="list-group-item"><b>Categoría:</b> {{product.category}}</li>
+        <li class="list-group-item"><b>Imágenes:</b>
+          <ul>
+            {{#each product.thumbnails}}
+            <li><img src="{{this}}" alt="Imagen del producto"></li>
+            {{/each}}
+          </ul>
+        </li>
       </ul>
       <button class="btn btn-primary w-100" onclick="addToCart('{{product._id}}')">
         Agregar al carrito
