@@ -1,28 +1,36 @@
 <div class="container my-4">
+  <!-- Botones de navegación -->
   <div class="d-flex justify-content-between align-items-center mb-4">
-    <h1>Productos</h1>
+    <h1 class="text-primary">
+      <i class="fas fa-home"></i> Página Principal
+    </h1>
     <div class="btn-group" role="group">
       <a href="/realtimeproducts" class="btn btn-outline-success">
-        <i class="fas fa-sync-alt"></i> Ver Productos en Tiempo Real
+        <i class="fas fa-sync-alt"></i> Productos en Tiempo Real
       </a>
       <a href="/chat" class="btn btn-outline-info ms-2">
         <i class="fas fa-comments"></i> Chat
       </a>
     </div>
   </div>
+
   <div class="row row-cols-1 row-cols-md-3 g-4">
     {{#each products}}
     <div class="col">
       <div class="card h-100 shadow-sm">
-        {{#if this.thumbnails}}
-        {{#each this.thumbnails}}
-        {{#if @first}}
-        <img src="/{{this}}" alt="{{../title}}" class="card-img-top"
-          onerror="this.onerror=null;this.src='/img/no-image.jpeg';" />
-        {{/if}}
-        {{/each}}
+        {{#if this.thumbnail}}
+        <img 
+          src="{{this.thumbnail}}" 
+          alt="{{this.title}}" 
+          class="card-img-top" 
+          onerror="this.onerror=null;this.src='../public/img/no-image.jpeg';" 
+        />
         {{else}}
-        <img src="/img/no-image.jpeg" alt="Sin imagen" class="card-img-top" />
+        <img 
+          src="../public/img/no-image.jpeg" 
+          alt="Sin imagen" 
+          class="card-img-top" 
+        />
         {{/if}}
         <div class="card-body">
           <h5 class="card-title">{{this.title}}</h5>
@@ -32,8 +40,10 @@
             <li class="list-group-item"><b>Código:</b> {{this.code}}</li>
             <li class="list-group-item"><b>Stock:</b> {{this.stock}}</li>
             <li class="list-group-item"><b>Categoría:</b> {{this.category}}</li>
-            <li class="list-group-item"><b>Status:</b> {{this.status}}</li>
           </ul>
+          <button class="btn btn-primary btn-sm w-100" onclick="addToCart('{{this._id}}')">
+            Agregar al carrito
+          </button>
         </div>
       </div>
     </div>
@@ -76,42 +86,33 @@
 </div>
 
 <script>
-  // Mejorar la experiencia del formulario con SweetAlert2
-  document.querySelector('form').addEventListener('submit', async function (e) {
-    e.preventDefault();
-
-    const formData = new FormData(this);
-
+  async function addToCart(productId) {
+    const cartId = localStorage.getItem('cartId') || 'default-cart-id'; // Cambia esto según tu lógica
     try {
-      const response = await fetch('/api/products', {
+      const response = await fetch(`/api/carts/${cartId}/products/${productId}`, {
         method: 'POST',
-        body: formData
       });
-
-      const result = await response.json();
 
       if (response.ok) {
         Swal.fire({
           icon: 'success',
           title: 'Producto agregado',
-          text: `El producto "${result.product.title}" se agregó exitosamente`,
-          showConfirmButton: true
-        }).then(() => {
-          // Recargar la página para mostrar el nuevo producto
-          window.location.reload();
+          text: 'El producto se agregó al carrito exitosamente',
         });
-
-        // Limpiar formulario
-        this.reset();
       } else {
-        throw new Error(result.error);
+        const error = await response.json();
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: error.message,
+        });
       }
     } catch (error) {
       Swal.fire({
         icon: 'error',
         title: 'Error',
-        text: error.message || 'Error al agregar el producto'
+        text: 'No se pudo agregar el producto al carrito',
       });
     }
-  });
+  }
 </script>

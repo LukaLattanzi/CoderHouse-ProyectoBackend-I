@@ -39,8 +39,21 @@ const io = new Server(httpServer);
 // Define el puerto donde se ejecutará el servidor
 const PORT = process.env.PORT || 8080;
 
-// Configuración de Handlebars
-app.engine("handlebars", exphbs.engine());
+// Configuración de Handlebars con helpers
+import { engine } from 'express-handlebars';
+
+const hbs = engine({
+  helpers: {
+    multiply: (a, b) => a * b,
+    calculateTotal: (products) => {
+      return products.reduce((total, item) => {
+        return total + (item.product.price * item.quantity);
+      }, 0).toFixed(2);
+    }
+  }
+});
+
+app.engine("handlebars", hbs);
 app.set("view engine", "handlebars");
 app.set("views", path.join(__dirname, "../views"));
 
