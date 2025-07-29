@@ -25,6 +25,7 @@ const cartSchema = new mongoose.Schema({
     }
 }, {
     timestamps: true,
+    versionKey: false
 });
 
 // Método para calcular el total del carrito

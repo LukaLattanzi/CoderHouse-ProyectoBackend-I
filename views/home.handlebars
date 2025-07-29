@@ -1,19 +1,22 @@
 <div class="container my-4">
-  <!-- Botones de navegación -->
+  <!-- Título principal -->
   <div class="d-flex justify-content-between align-items-center mb-4">
     <h1 class="text-primary">
       <i class="fas fa-home"></i> Página Principal
     </h1>
     <div class="btn-group" role="group">
+      <!-- Botón para productos en tiempo real -->
       <a href="/realtimeproducts" class="btn btn-outline-success">
-        <i class="fas fa-sync-alt"></i> Productos en Tiempo Real
+        <i class="fas fa-sync-alt"></i> Productos en tiempo real
       </a>
-      <a href="/chat" class="btn btn-outline-info ms-2">
+      <!-- Botón para el chat -->
+      <a href="/chat" class="btn btn-outline-info">
         <i class="fas fa-comments"></i> Chat
       </a>
     </div>
   </div>
 
+  <!-- Productos -->
   <div class="row row-cols-1 row-cols-md-3 g-4">
     {{#each products}}
     <div class="col">
@@ -37,10 +40,11 @@
           <p class="card-text">{{this.description}}</p>
           <ul class="list-group list-group-flush mb-2">
             <li class="list-group-item"><b>Precio:</b> ${{this.price}}</li>
-            <li class="list-group-item"><b>Código:</b> {{this.code}}</li>
-            <li class="list-group-item"><b>Stock:</b> {{this.stock}}</li>
             <li class="list-group-item"><b>Categoría:</b> {{this.category}}</li>
           </ul>
+          <a href="/products/{{this._id}}" class="btn btn-outline-primary btn-sm w-100 mb-2">
+            Ver detalles
+          </a>
           <button class="btn btn-primary btn-sm w-100" onclick="addToCart('{{this._id}}')">
             Agregar al carrito
           </button>
@@ -49,39 +53,16 @@
     </div>
     {{/each}}
   </div>
-</div>
 
-<div class="container my-5">
-  <div class="card shadow">
-    <div class="card-body">
-      <h2 class="card-title mb-3">Agregar producto</h2>
-      <form action="/api/products" method="POST" enctype="multipart/form-data" class="row g-3">
-        <div class="col-md-6">
-          <input type="text" name="title" class="form-control" placeholder="Título" required />
-        </div>
-        <div class="col-md-6">
-          <input type="text" name="description" class="form-control" placeholder="Descripción" required />
-        </div>
-        <div class="col-md-4">
-          <input type="number" name="price" class="form-control" placeholder="Precio" required />
-        </div>
-        <div class="col-md-4">
-          <input type="text" name="code" class="form-control" placeholder="Código" required />
-        </div>
-        <div class="col-md-4">
-          <input type="number" name="stock" class="form-control" placeholder="Stock" required />
-        </div>
-        <div class="col-md-6">
-          <input type="text" name="category" class="form-control" placeholder="Categoría" required />
-        </div>
-        <div class="col-md-6">
-          <input type="file" name="thumbnail" class="form-control" accept="image/*" />
-        </div>
-        <div class="col-12">
-          <button type="submit" class="btn btn-primary w-100">Agregar</button>
-        </div>
-      </form>
-    </div>
+  <!-- Paginación -->
+  <div class="d-flex justify-content-between align-items-center mt-4">
+    {{#if pagination.hasPrevPage}}
+    <a href="{{pagination.prevLink}}" class="btn btn-outline-secondary">Anterior</a>
+    {{/if}}
+    <span>Página {{pagination.page}} de {{pagination.totalPages}}</span>
+    {{#if pagination.hasNextPage}}
+    <a href="{{pagination.nextLink}}" class="btn btn-outline-secondary">Siguiente</a>
+    {{/if}}
   </div>
 </div>
 

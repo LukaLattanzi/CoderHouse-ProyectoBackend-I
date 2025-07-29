@@ -1,79 +1,48 @@
 <div class="container my-4">
-  <div class="row">
-    <div class="col-md-6">
-      {{#if product.thumbnails}}
-      {{#each product.thumbnails}}
-      {{#if @first}}
-      <img src="/{{this}}" alt="{{../product.title}}" class="img-fluid rounded"
-        onerror="this.onerror=null;this.src='/img/no-image.jpeg';" />
-      {{/if}}
-      {{/each}}
-      {{else}}
-      <img src="/img/no-image.jpeg" alt="Sin imagen" class="img-fluid rounded" />
-      {{/if}}
-    </div>
-    <div class="col-md-6">
-      <h1>{{product.title}}</h1>
-      <p class="lead">{{product.description}}</p>
-
+  <div class="card shadow">
+    <div class="card-body">
+      <h1 class="card-title">{{product.title}}</h1>
+      <p class="card-text">{{product.description}}</p>
       <ul class="list-group list-group-flush mb-3">
-        <li class="list-group-item"><strong>Precio:</strong> ${{product.price}}</li>
-        <li class="list-group-item"><strong>Código:</strong> {{product.code}}</li>
-        <li class="list-group-item"><strong>Stock:</strong> {{product.stock}}</li>
-        <li class="list-group-item"><strong>Categoría:</strong> {{product.category}}</li>
-        <li class="list-group-item"><strong>Status:</strong> {{#if product.status}}Activo{{else}}Inactivo{{/if}}</li>
+        <li class="list-group-item"><b>Precio:</b> ${{product.price}}</li>
+        <li class="list-group-item"><b>Categoría:</b> {{product.category}}</li>
+        <li class="list-group-item"><b>Stock:</b> {{product.stock}}</li>
       </ul>
-
-      <div class="d-grid gap-2">
-        <button class="btn btn-primary btn-lg" onclick="addToCart('{{product._id}}')">
-          <i class="fas fa-shopping-cart"></i> Agregar al Carrito
-        </button>
-        <a href="/" class="btn btn-outline-secondary">
-          <i class="fas fa-arrow-left"></i> Volver a productos
-        </a>
-      </div>
+      <button class="btn btn-primary w-100" onclick="addToCart('{{product._id}}')">
+        Agregar al carrito
+      </button>
     </div>
   </div>
 </div>
 
 <script>
-  function addToCart(productId) {
-    // Por ahora, crear un carrito nuevo para cada producto
-    // En una implementación real, manejarías el carrito del usuario
-    fetch('/api/carts', {
-      method: 'POST'
-    })
-      .then(response => response.json())
-      .then(cartData => {
-        if (cartData.status === 'success') {
-          return fetch(`/api/carts/${cartData.payload._id}/product/${productId}`, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ quantity: 1 })
-          });
-        }
-      })
-      .then(response => response.json())
-      .then(result => {
-        if (result.status === 'success') {
-          Swal.fire({
-            icon: 'success',
-            title: 'Producto agregado',
-            text: 'El producto se agregó exitosamente al carrito',
-            showConfirmButton: true
-          });
-        } else {
-          throw new Error(result.message);
-        }
-      })
-      .catch(error => {
+  async function addToCart(productId) {
+    const cartId = localStorage.getItem('cartId') || 'default-cart-id'; // Cambia esto según tu lógica
+    try {
+      const response = await fetch(`/api/carts/${cartId}/products/${productId}`, {
+        method: 'POST',
+      });
+
+      if (response.ok) {
+        Swal.fire({
+          icon: 'success',
+          title: 'Producto agregado',
+          text: 'El producto se agregó al carrito exitosamente',
+        });
+      } else {
+        const error = await response.json();
         Swal.fire({
           icon: 'error',
           title: 'Error',
-          text: error.message || 'Error al agregar el producto al carrito'
+          text: error.message,
         });
+      }
+    } catch (error) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'No se pudo agregar el producto al carrito',
       });
+    }
   }
 </script>
