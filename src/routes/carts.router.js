@@ -71,18 +71,29 @@ router.get('/:cid', async (req, res) => {
     try {
         // Verificar si el ID es válido
         if (!mongoose.Types.ObjectId.isValid(cid)) {
-            return res.status(400).json({ status: 'error', message: 'ID de carrito no válido' });
+            return res.status(400).render('error', {
+                statusCode: 400,
+                message: 'ID de carrito no válido',
+            });
         }
 
-        // Usar .lean() para convertir el documento a un objeto plano
+        // Buscar el carrito y poblar los productos
         const cart = await Cart.findById(cid).populate('products.product').lean();
         if (!cart) {
-            return res.status(404).json({ status: 'error', message: 'Carrito no encontrado' });
+            return res.status(404).render('error', {
+                statusCode: 404,
+                message: 'Carrito no encontrado',
+            });
         }
 
-        res.render('cartDetail', { cart }); // Renderizar la vista con el carrito
+        // Renderizar la vista del carrito
+        res.render('cartDetail', { cart });
     } catch (error) {
-        res.status(500).json({ status: 'error', message: 'Error al obtener el carrito', error: error.message });
+        res.status(500).render('error', {
+            statusCode: 500,
+            message: 'Error al obtener el carrito',
+            error: error.message,
+        });
     }
 });
 
@@ -139,7 +150,7 @@ router.put("/:cid/products/:pid", async (req, res) => {
 // POST /api/carts/:cid/products/:pid - Agregar un producto a un carrito específico
 router.post('/:cid/products/:pid', async (req, res) => {
     const { cid, pid } = req.params;
-    const { quantity = 1 } = req.body;
+    const { quantity = 1 } = req.body; // Usar 1 como valor predeterminado si no se envía cantidad
 
     try {
         let cart = await Cart.findById(cid);
@@ -154,7 +165,7 @@ router.post('/:cid/products/:pid', async (req, res) => {
         if (existingProduct) {
             existingProduct.quantity += quantity; // Incrementar la cantidad
         } else {
-            cart.products.push({ product: pid, quantity }); // Agregar nuevo producto
+            cart.products.push({ product: pid, quantity }); // Agregar nuevo producto con la cantidad especificada
         }
 
         // Guardar el carrito actualizado
@@ -171,6 +182,12 @@ router.put('/:cid', async (req, res) => {
     const { cid } = req.params;
 
     try {
+        // Verificar si el ID es válido
+        if (!mongoose.Types.ObjectId.isValid(cid)) {
+            return res.status(400).json({ status: 'error', message: 'ID de carrito no válido' });
+        }
+
+        // Buscar el carrito
         const cart = await Cart.findById(cid);
         if (!cart) {
             return res.status(404).json({ status: 'error', message: 'Carrito no encontrado' });

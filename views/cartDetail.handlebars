@@ -236,31 +236,31 @@
 
   async function finalizeCart(cartId) {
     try {
-      const response = await fetch(`/api/carts/${cartId}`, { method: 'PUT' });
+        const response = await fetch(`/api/carts/${cartId}`, { method: 'PUT' });
 
-      if (response.ok) {
-        Swal.fire({
-          icon: 'success',
-          title: 'Compra finalizada',
-          text: 'El carrito se ha guardado exitosamente en la base de datos',
-        }).then(() => {
-          localStorage.removeItem('cartId'); // Limpiar el carrito local
-          window.location.href = '/'; // Redirigir a la página principal
-        });
-      } else {
-        const error = await response.json();
-        Swal.fire({
-          icon: 'error',
-          title: 'Error',
-          text: error.message,
-        });
-      }
+        if (response.ok) {
+            Swal.fire({
+                icon: 'success',
+                title: 'Compra finalizada',
+                text: 'El carrito se ha guardado exitosamente en la base de datos',
+            }).then(() => {
+                localStorage.removeItem('cartId'); // Limpiar el carrito local
+                window.location.href = '/'; // Redirigir a la página principal
+            });
+        } else {
+            const error = await response.json();
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: error.message,
+            });
+        }
     } catch (error) {
-      Swal.fire({
-        icon: 'error',
-        title: 'Error',
-        text: 'No se pudo finalizar la compra',
-      });
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'No se pudo finalizar la compra',
+        });
     }
-  }
+}
 </script>

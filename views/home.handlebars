@@ -20,6 +20,37 @@
     </div>
   </div>
 
+  <!-- Filtros y ordenamiento -->
+  <form id="filter-form" class="mb-4">
+    <div class="row g-3">
+      <div class="col-md-4">
+        <select id="category" class="form-select">
+          <option value="">Todas las categorías</option>
+          <option value="Videojuego">Videojuegos</option>
+          <option value="Consola">Consolas</option>
+          <option value="Accesorio">Accesorios</option>
+        </select>
+      </div>
+      <div class="col-md-4">
+        <select id="status" class="form-select">
+          <option value="">Todos los estados</option>
+          <option value="true">Activos</option>
+          <option value="false">Inactivos</option>
+        </select>
+      </div>
+      <div class="col-md-4">
+        <select id="sort" class="form-select">
+          <option value="">Sin orden</option>
+          <option value="asc">Precio ascendente</option>
+          <option value="desc">Precio descendente</option>
+        </select>
+      </div>
+    </div>
+    <div class="mt-3">
+      <button type="button" class="btn btn-primary w-100" onclick="applyFilters()">Aplicar filtros</button>
+    </div>
+  </form>
+
   <!-- Productos -->
   <div class="row row-cols-1 row-cols-md-3 g-4">
     {{#each products}}
@@ -133,5 +164,18 @@
         text: 'No se encontró un carrito válido',
       });
     }
+  }
+
+  function applyFilters() {
+    const category = document.getElementById('category').value;
+    const status = document.getElementById('status').value;
+    const sort = document.getElementById('sort').value;
+
+    let query = '/?';
+    if (category) query += `category=${category}&`;
+    if (status) query += `status=${status}&`;
+    if (sort) query += `sort=${sort}&`;
+
+    window.location.href = query.slice(0, -1); // Redirigir con los filtros aplicados
   }
 </script>

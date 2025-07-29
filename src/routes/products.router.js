@@ -10,9 +10,14 @@ let io;
 
 // GET /api/products - Devuelve productos con paginación y filtros
 router.get("/", async (req, res) => {
-    const { limit = 10, page = 1, sort, query } = req.query;
+    const { limit = 10, page = 1, sort, category, status } = req.query;
 
-    const filter = query ? { $or: [{ category: query }, { availability: query }] } : {};
+    // Construir filtros
+    const filter = {};
+    if (category) filter.category = category;
+    if (status !== undefined) filter.status = status === 'true';
+
+    // Configurar ordenamiento
     const sortOption = sort === 'asc' ? { price: 1 } : sort === 'desc' ? { price: -1 } : {};
 
     const options = {
@@ -33,8 +38,8 @@ router.get("/", async (req, res) => {
             page: products.page,
             hasPrevPage: products.hasPrevPage,
             hasNextPage: products.hasNextPage,
-            prevLink: products.hasPrevPage ? `/api/products?limit=${limit}&page=${products.prevPage}&sort=${sort}&query=${query}` : null,
-            nextLink: products.hasNextPage ? `/api/products?limit=${limit}&page=${products.nextPage}&sort=${sort}&query=${query}` : null,
+            prevLink: products.hasPrevPage ? `/api/products?limit=${limit}&page=${products.prevPage}&sort=${sort}&category=${category}&status=${status}` : null,
+            nextLink: products.hasNextPage ? `/api/products?limit=${limit}&page=${products.nextPage}&sort=${sort}&category=${category}&status=${status}` : null,
         });
     } catch (error) {
         res.status(500).json({ status: 'error', message: error.message });
